@@ -8,17 +8,9 @@ import requests
 import sys
 from time import sleep
 
-TEST = False
-
 if __name__ == '__main__':
-    TEST = True
-
-if TEST:
     from oocrawlers.examplecrawler import TestCrawler
     Crawler = TestCrawler
-
-
-
 
 STARTING_URL = 'https://www.jse.co.za'
 COMPANIES_URL = 'https://www.jse.co.za/_vti_bin/JSE/CustomerRoleService.svc/GetAllIssuers'
@@ -37,7 +29,7 @@ false = ""
 class SouthAfricaCrawler(Crawler):
     LABEL = "Johannesburg Stock Exchange"
     SITE = "https://www.jse.co.za/"
-    MAX_RESULTS = 10  #There are 385 companies currently on the site. This should be bigger number !!!
+    MAX_RESULTS = 99999
 
 
     def list_companies(self):
@@ -90,11 +82,12 @@ class SouthAfricaCrawler(Crawler):
             
             try:
                 company_name = company['LongName']
+                basic_details['Company Name'] = company_name
             except:
                 continue
             
             try:
-                basic_data['code'] = company['AlphaCode']
+                basic_details['Company ID'] = company['AlphaCode']
             except:
                 pass
                 
