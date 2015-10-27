@@ -25,6 +25,8 @@ setup(
         'aleph.crawlers': [
             'edgar = oocrawlers.edgar:EdgarCrawler',
             'asx = oocrawlers.asx:ASXCrawler',
+            'bombay = oocrawlers.bombay:BombayCrawler',
+            'company_pdfs = oocrawlers.file_finder:BingPDFCrawler',
             'openoil = oocrawlers.openoil:OpenOilCrawler',
             'rigzone = oocrawlers.rigzone:RigZoneCrawler',
             'sedar = oocrawlers.sedar:SedarCrawler',
