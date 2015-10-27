@@ -20,14 +20,14 @@ class EdgarCrawler(Crawler):
 
     LABEL = "SEC EDGAR"
     SITE = "http://sec.gov"
-    MONTHS = 100000
-    OFFSET = 40
+    MONTHS = 4000
+    OFFSET = 0
 
     def monthly_indexes(self):
         ftp = ftplib.FTP('ftp.sec.gov')
         ftp.login('anonymous', '@anonymous')
         ftp.cwd('edgar/monthly')
-        for file_name in ftp.nlst():
+        for file_name in ftp.nlst()[self.OFFSET:self.MONTHS]:
             with tempfile.NamedTemporaryFile(suffix='.xml') as fh:
                 ftp.retrbinary("RETR " + file_name, fh.write)
                 fh.seek(0)
@@ -71,10 +71,7 @@ class EdgarCrawler(Crawler):
                     yield url, file_data
 
     def crawl(self):
-        for file_path in itertools.islice(
-                self.monthly_indexes(),
-                self.OFFSET,
-                self.OFFSET + self.MONTHS):
+        for file_path in self.monthly_indexes():
             logging.info('working on %s' % file_path)
             try:
                 for url, file_data in self.parse_feed(file_path):
